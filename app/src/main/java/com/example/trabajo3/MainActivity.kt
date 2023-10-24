@@ -1,5 +1,6 @@
 package com.example.trabajo3
 
+import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
@@ -47,14 +49,20 @@ class MainActivity : ComponentActivity() {
 }
 data class Tarea(val id: Int, val descripcion: String, var completada: Boolean = false)
 
-val listaTareas = List(20) { Tarea(it, "Tarea $it") }.toMutableStateList()
+
+val listaTareas = List(20) { Tarea(it + 1, "Tarea ${it + 1}", false) }.toMutableStateList()
+
+
+
 
 @Composable
 fun ListaDeTareas(tareas: List<Tarea>, onTareaCompletada: (Tarea) -> Unit, onTareaBorrada: (Tarea) -> Unit) {
     LazyColumn {
         items(tareas) { tarea ->
             Row(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
@@ -66,15 +74,18 @@ fun ListaDeTareas(tareas: List<Tarea>, onTareaCompletada: (Tarea) -> Unit, onTar
                 )
                 Text(
                     text = tarea.descripcion,
-                    modifier = Modifier.weight(1f).padding(start = 16.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 16.dp),
                     style = TextStyle(
                         fontSize = 30.sp,
                         color = MaterialTheme.colorScheme.primary
+
                     )
                 )
                 IconButton(
                     onClick = { onTareaBorrada(tarea) },
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(30.dp),
 
                 ) {
                     Icon(imageVector = Icons.Default.Delete, contentDescription = "Borrar", tint = MaterialTheme.colorScheme.primary)
